@@ -1,0 +1,198 @@
+
+<html>
+  
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script> 
+
+  
+    <script>
+    window.onload = function () {
+    const photos = {
+    spass_church: 'https://i.postimg.cc/JnvVCY7M/10-2-24.jpg',
+    sobor_bogoyavleniya: 'https://i.postimg.cc/JhTCP49y/c31a76b94e314777eb95e3e33d29736a-close-image-arrow-keys.jpg',
+    endless_fire: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    polish_kostel: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    kirov_square: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    creativity_palace: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    circle: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    central_telegraph: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    jelyabov_wood_houses: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    moscow_gates: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    znamenskiy_monastery: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    decembrist_graves: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    shelikhov_monument: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    konev_monument: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    officers_house: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    chechovs_hotel: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    grand_hotel: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    art_school: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    don_ottelo_cinema: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    art_cinema: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    bgu: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    russian_asian_bank: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    theatre_oxlopkov: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    local_lore_museum: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    white_house: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg',
+    alexIII_monument: 'https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg'
+    };
+    const old_photos = {
+    spass_church: 'https://i.postimg.cc/w38NvGwk/1643148371-8-vsegda-pomnim-com-p-irkutsk-kostel-foto-8.jpg',
+    sobor_bogoyavleniya: 'https://i.postimg.cc/gj6RGWHJ/768x1024.jpg',
+    endless_fire: 'missing'
+    };
+    const place_names = {
+    spass_church: 'Спасская церковь и памятник основателям города',
+    sobor_bogoyavleniya: 'Собор богоявления',
+    endless_fire: 'Мемориал Вечный огонь и памятник святым Петру и Февронии Муромским',
+    polish_kostel: 'Римско-католический костел',
+    kirov_square: 'Сквер им. С.М.Кирова',
+    creativity_palace: 'Дворец детского и юношеского творчества, бывший дом купцов Второвых',
+    circle: 'Здание цирка',
+    central_telegraph: 'Здание центрального телеграфа',
+    jelyabov_wood_houses: 'Деревяные дома на ул. А.Желябова',
+    moscow_gates: 'Московские ворота',
+    znamenskiy_monastery: 'Знаменский монастырь',
+    decembrist_graves: 'Могилы декабристов',
+    shelikhov_monument: 'Памятник Г.И.Шелихову',
+    konev_monument: 'Памятник А.В.Колчаку',
+    officers_house: 'Дом офицеров',
+    chechovs_hotel: 'Гостиница, где жил А.П.Чехов',
+    grand_hotel: 'Гранд-отель',
+    art_school: 'Училище искусств',
+    don_ottelo_cinema: 'Кинотеатр "Дон-Отелло"',
+    art_cinema: 'Кинотеатр "Художественный"',
+    bgu: 'Байкальский государственный университет экономики и права',
+    russian_asian_bank: 'Русско-Азиатский банк',
+    theatre_oxlopkov: 'Драматический театр им. Н.П.Охлопкова',
+    local_lore_museum: 'Иркутский областной краеведческий музей',
+    white_house: 'Белый дом',
+    alexIII_monument: 'Памятник Александру III'
+    };
+
+     // a_entity = document.querySelector("a-entity");
+      a_entity_one = document.getElementById('cube_one');
+      a_entity_two = document.getElementById('cube_two');
+      text_name = document.getElementById('name_text');
+      
+      buttons = document.querySelectorAll(".place-button");
+      buttons.forEach(function(button) {
+  // Вешаем событие клик
+        button.addEventListener("click", function () {
+          // here you can change also a-scene or a-entity properties, like
+          // changing your 3D model source, size, position and so on
+          // or you can just open links, trigger actions...
+         // alert(button.getAttribute("id"));
+          key = button.getAttribute("id");
+          //photo_one = photos[button.getAttribute("id")];
+          photo_two = old_photos[button.getAttribute("id")];
+          //alert(photo_two);
+          text_name.setAttribute("text-geometry", {value: place_names[button.getAttribute("id")]});
+          a_entity_one.setAttribute("material", {src: photos[button.getAttribute("id")]});
+         
+          
+        //  alert(photo_two != 'missing');
+          if(photo_two != 'missing'){
+            //alert('here');
+            a_entity_two.setAttribute("material", {src: old_photos[button.getAttribute("id")]});
+            a_entity_two.setAttribute("visible", 'true');
+           // a_entity_two.material.flushToDOM(true);
+           
+          }
+          else{
+            a_entity_two.setAttribute("visible", 'false');
+           
+          }
+          document.querySelector('a-scene').flushToDOM(true);
+        });
+      });
+    };
+  </script>
+
+   <style>
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5em;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;     
+      align-items: center;
+      z-index: 10;    
+    }
+
+    .place-button {
+      flex: 0 0 auto;
+      padding: 0.25em;
+      border-radius: 50px;
+      border: none;
+      background: white;
+      color: black;
+      width: 4em;
+      height: 2em;
+    }
+  </style>  
+  
+  
+  <body style="margin : 0px; overflow: hidden;">
+    <div class="buttons">
+      <button class="place-button" id="spass_church">1</button>
+      <button class="place-button" id="sobor_bogoyavleniya">2</button>
+      <button class="place-button" id="endless_fire">3</button>
+      <button class="place-button" id="polish_kostel">4</button>
+      <button class="place-button" id="kirov_square">5</button>
+      <button class="place-button" id="creativity_palace">6</button>
+      <button class="place-button" id="circle">7</button>
+      <button class="place-button" id="central_telegraph">8</button>
+      <button class="place-button" id="jelyabov_wood_houses">9</button>
+      <button class="place-button" id="moscow_gates">10</button>
+      <button class="place-button" id="znamenskiy_monastery">11</button>
+      <button class="place-button" id="decembrist_graves">12</button>
+      <button class="place-button" id="shelikhov_monument">13</button>
+      <button class="place-button" id="konev_monument">14</button>
+      <button class="place-button" id="officers_house">15</button>
+      <button class="place-button" id="chechovs_hotel">16</button>
+      <button class="place-button" id="grand_hotel">17</button>
+      <button class="place-button" id="art_school">18</button>
+      <button class="place-button" id="don_ottelo_cinema">19</button>
+      <button class="place-button" id="art_cinema">20</button>
+      <button class="place-button" id="bgu">21</button>
+      <button class="place-button" id="russian_asian_bank">22</button>
+      <button class="place-button" id="theatre_oxlopkov">23</button>
+      <button class="place-button" id="local_lore_museum">24</button>
+      <button class="place-button" id="white_house">25</button>
+      <button class="place-button" id="alexIII_monument">26</button>
+    </div>
+    
+    <a-scene embedded arjs cursor="rayOrigin:mouse" foo>
+      <a-assets>
+        <a-asset-item id="arialBoldFont" src="font/Arial_Bold.json"></a-asset-item>
+      </a-assets>
+      
+      <a-marker type ="pattern" url ="https://cdn.glitch.global/043fcfd0-b664-4eb1-8442-fa407e47ae2f/pattern-xxh.patt?v=1656894664224" >
+        <a-entity 
+                  id="cube_one"
+                  position="2 2 -1"
+                  material="src: https://i.postimg.cc/zXktnPmv/image.jpg"
+                  geometry="primitive: box; height: 1.5; width: 1.5; depth: 1.5"
+                  visible="true"></a-entity>
+        <a-entity 
+                  id="cube_two"
+                  position="0 0 1"
+                  material="src: https://i.postimg.cc/hGNpSkmy/c3a797232d17ab3abc556c23beb4e471.jpg"
+                  geometry="primitive: box; height: 1.5; width: 1.5; depth: 1.5"
+                  visible="true"></a-entity>
+         <a-entity id="name_text"
+                   text-geometry="value: Спасская церковь; font: #arialBoldFont; size: 0.3"
+                   material="color: salmon"
+                   position="2.5 0 0"
+                   ></a-entity>
+
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
